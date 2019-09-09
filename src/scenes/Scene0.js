@@ -11,7 +11,13 @@ export default class Scene0 extends Phaser.Scene {
 
   preload () {
     // Preload assets
-    this.load.image('logo', './assets/logo.png');
+    this.load.spritesheet('alien', "./assets/spriteSheets/player.png",{
+      frameHeight: 93,
+      frameWidth: 67
+    });
+
+    //Load background assets
+    this.load.image('desert', "./assets/images/background.png")
 
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
@@ -22,11 +28,51 @@ export default class Scene0 extends Phaser.Scene {
     //Add event listerners
     ChangeScene.addSceneEventListeners(this);
 
-    //Create the scene
-    var text = this.add.text(this.centerX - 20, this.centerY, 'Scene 0');
+    var background = this.add.sprite(1280/2, 960/2, 'desert');
+
+    //Add player spritesheet
+    this.player = this.physics.add.sprite(100, 800, 'alien');
+    this.player.setCollideWorldBounds(true);
+    this.physics.world.setBounds(0, 0, 1280, 960);
+
+    this.cameras.main.setBounds(0, 0, 1280, 960);
+    this.cameras.main.startFollow(this.player);
+
+    //Create animation from spriteSheets
+    this.anims.create({
+      key: "walk",
+      frames: this.anims.generateFrameNumbers('alien', { start: 0, end: 5}),
+      frameRate: 10,
+      repeat: -1
+    });
+    this.anims.create({
+      key: "idle",
+      frames: this.anims.generateFrameNumbers('alien', { start: 0, end: 0}),
+      frameRate: 10,
+      repeat: -1
+    });
   }
 
   update (time, delta) {
     // Update the scene
+    var cursors = this.input.keyboard.createCursorKeys();
+    var speed = 5;
+
+    if (cursors.left.isDown) {
+      this.player.x -= speed;
+      this.player.flipX = true;
+      this.player.anims.play('walk', true);
+    } else if (cursors.right.isDown) {
+      this.player.x += speed;
+      this.player.flipX = false;
+      this.player.anims.play('walk', true);
+    } else {
+      this.player.anims.play('idle', true);
+    }
+    if (cursors.up.isDown) {
+      this.player.y -= speed;
+    } else if (cursors.down.isDown) {
+      this.player.y += speed;
+    }
   }
 }
