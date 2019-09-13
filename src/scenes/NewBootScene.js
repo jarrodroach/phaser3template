@@ -1,8 +1,6 @@
-/*global Phaser*/
-import * as ChangeScene from './ChangeScene.js';
-export default class BootScene extends Phaser.Scene {
+export default class NewBootScene extends Phaser.Scene {
   constructor() {
-    super("Boot");
+    super("NewBoot");
   }
 
   preload(){
@@ -40,11 +38,12 @@ export default class BootScene extends Phaser.Scene {
     this.load.bitmapFont("pixelFont", "assets/font/font.png", "assets/font/font.xml");
 
     // 1.1 load sounds in both formats mp3 and ogg
-
+/*
     this.load.audio("audio_beam", ["assets/sounds/beam.ogg", "assets/sounds/beam.mp3"]);
     this.load.audio("audio_explosion", ["assets/sounds/explosion.ogg", "assets/sounds/explosion.mp3"]);
     this.load.audio("audio_pickup", ["assets/sounds/pickup.ogg", "assets/sounds/pickup.mp3"]);
     this.load.audio("music", ["assets/sounds/sci-fi_platformer12.ogg", "assets/sounds/sci-fi_platformer12.mp3"]);
+*/
   }
 
   create() {
