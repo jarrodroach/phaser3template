@@ -1,25 +1,7 @@
-/*global Phaser*/
-import * as ChangeScene from "./ChangeScene.js";
-
-//This tutorial and assets are from https://medium.com/@michaelwesthadley/modular-game-worlds-in-phaser-3-tilemaps-1-958fc7e6bbd6
-
-export default class scene1 extends Phaser.Scene {
-  preload() {
-    this.load.image("tiles", "./assets/tilesets/tuxmon-sample-32px-extruded.png");
-    this.load.tilemapTiledJSON("map", "./assets/tilemaps/tuxemon-town.json");
-
-    // An atlas is a way to pack multiple images together into one texture. I'm using it to load all
-    // the player animations (walking left, walking right, etc.) in one image. For more info see:
-    //  https://labs.phaser.io/view.html?src=src/animation/texture%20atlas%20animation.js
-    // If you don't use an atlas, you can do the same thing with a spritesheet, see:
-    //  https://labs.phaser.io/view.html?src=src/animation/single%20sprite%20sheet.js
-    this.load.atlas(
-      "atlas",
-      "./assets/atlas/atlas.png",
-      "./assets/atlas/atlas.json"
-    );
+export default class end extends Phaser.Scene {
+  constructor () {
+    super('end');
   }
-
   create() {
     //Add change scene event listeners
     ChangeScene.addSceneEventListeners(this);
