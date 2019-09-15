@@ -1,14 +1,13 @@
 /*globals Phaser*/
 import * as ChangeScene from './ChangeScene.js';
-export default class Scene5 extends Phaser.Scene {
+export default class Gameplay extends Phaser.Scene {
   constructor () {
-    super('Scene5');
+    super('Gameplay');
   }
 
   preload() {
     this.load.image("sky", "./assets/sprites/sky.png");
     this.load.image("ground", "./assets/sprites/platform.png");
-    this.load.image("star", "./assets/sprites/star.png");
     this.load.image("bomb", "./assets/sprites/bomb.png");
     this.load.spritesheet("dude", "./assets/sprites/dude.png", {
       frameWidth: 32,
@@ -17,11 +16,8 @@ export default class Scene5 extends Phaser.Scene {
   }
 
   create() {
-    //Add change scene event listeners
-    ChangeScene.addSceneEventListeners(this);
 
     this.player;
-    this.stars;
     this.bombs;
     var platforms;
     this.cursors;
@@ -81,18 +77,6 @@ export default class Scene5 extends Phaser.Scene {
     //  Input Events
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
-    this.stars = this.physics.add.group({
-      key: "star",
-      repeat: 11,
-      setXY: { x: 12, y: 0, stepX: 70 }
-    });
-
-    this.stars.children.iterate(function(child) {
-      //  Give each star a slightly different bounce
-      child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-    });
-
     this.bombs = this.physics.add.group();
 
     //  The score
@@ -106,15 +90,6 @@ export default class Scene5 extends Phaser.Scene {
     this.physics.add.collider(this.stars, platforms);
     this.physics.add.collider(this.bombs, platforms);
 
-    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    this.physics.add.overlap(
-      this.player,
-      this.stars,
-      this.collectStar,
-      null,
-      this
-    );
-
     this.physics.add.collider(
       this.player,
       this.bombs,
@@ -126,7 +101,7 @@ export default class Scene5 extends Phaser.Scene {
 
   update() {
     if (this.gameOver) {
-      this.scene.start('GameOverScene', { score: this.score });
+      this.scene.start('GameOver', { score: this.score });
       return;
     }
 
@@ -149,31 +124,7 @@ export default class Scene5 extends Phaser.Scene {
     }
   }
 
-  collectStar(player, star) {
-    star.disableBody(true, true);
 
-    //  Add and update the score
-    this.score += 10;
-    this.scoreText.setText("Score: " + this.score);
-
-    if (this.stars.countActive(true) === 0) {
-      //  A new batch of stars to collect
-      this.stars.children.iterate(function(child) {
-        child.enableBody(true, child.x, 0, true, true);
-      });
-
-      var x =
-        player.x < 400
-          ? Phaser.Math.Between(400, 800)
-          : Phaser.Math.Between(0, 400);
-
-      this.bomb = this.bombs.create(x, 16, "bomb");
-      this.bomb.setBounce(1);
-      this.bomb.setCollideWorldBounds(true);
-      this.bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-      this.bomb.allowGravity = false;
-    }
-  }
 
   hitBomb(player, bomb) {
     this.physics.pause();
