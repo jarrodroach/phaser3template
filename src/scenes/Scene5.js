@@ -52,12 +52,12 @@ export default class Scene5 extends Phaser.Scene {
     platforms.create(247, 218, 'wall');
     platforms.create(247, 118, 'wall');
     platforms.create(350, 300, 'wall');
-    platforms.create(350, 300, 'wall');
+    platforms.create(480, 230, 'wall');
 
     //create bomb obstacle
     this.bombs = this.physics.add.group();
 
-    //bomb 1
+    //bomb 1 is created
     this.bomb = this.bombs.create(500, 16, "bomb");
     this.bomb.setBounce(1);
     this.bomb.setCollideWorldBounds(true);
@@ -119,8 +119,8 @@ export default class Scene5 extends Phaser.Scene {
 
     //  The score
     this.scoreText = this.add.text(16, 16, "Score: 0", {
-      fontSize: "32px",
-      fill: "#000"
+      fontSize: "48px",
+      fill: "#FB431C"
     });
 
     //  Collide the player and the stars with the platforms

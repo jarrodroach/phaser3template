@@ -21,8 +21,9 @@ export default class GameOver extends Phaser.Scene {
   create (data) {
 
     //Create the scene
-    var score = this.add.text(this.centerX - 20, this.centerY + 25, this.score);
-    var text = this.add.text(this.centerX - 20, this.centerY, 'Play Again? Press Y/N');
+    var score = this.add.text(this.centerX - 20, this.centerY, this.score);
+    var scoreText = this.add.text(this.centerX - 100, this.centerY, "Score: ")
+    var text = this.add.text(this.centerX - 100, this.centerY + 25, 'Play Again? Press Y/N');
     this.startKey = this.input.keyboard.addKey('Y');
     this.titleKey = this.input.keyboard.addKey('N');
 
