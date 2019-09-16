@@ -14,8 +14,6 @@ export default class GameOver extends Phaser.Scene {
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
-    this.startKey;
-    this.endKey;
   }
 
   create (data) {
@@ -31,7 +29,7 @@ export default class GameOver extends Phaser.Scene {
   update (time, delta) {
     // Update the scene
     if (this.startKey.isDown) {
-      this.scene.start('Game')
+      this.scene.start('Gameplay')
     } else if (this.titleKey.isDown) {
       this.scene.start('Title')
     }
