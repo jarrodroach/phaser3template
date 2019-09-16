@@ -1,5 +1,4 @@
 /*global Phaser*/
-import * as ChangeScene from './ChangeScene.js';
 export default class Title extends Phaser.Scene {
   constructor () {
     super('Title');
@@ -31,7 +30,7 @@ export default class Title extends Phaser.Scene {
   update (time, delta) {
 
   if (this.startKey.isDown) {
-    this.scene.start('Scene5')
+    this.scene.start('Gameplay')
   }
 
   }

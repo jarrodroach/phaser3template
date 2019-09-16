@@ -21,8 +21,7 @@ export default class GameOver extends Phaser.Scene {
   create (data) {
 
     //Create the scene
-    var score = this.add.text(this.centerX - 20, this.centerY, this.score);
-    var scoreText = this.add.text(this.centerX - 100, this.centerY, "Score: ")
+    var score = this.add.text(this.centerX - 100, this.centerY, "Score: " + this.score)
     var text = this.add.text(this.centerX - 100, this.centerY + 25, 'Play Again? Press Y/N');
     this.startKey = this.input.keyboard.addKey('Y');
     this.titleKey = this.input.keyboard.addKey('N');
@@ -32,7 +31,7 @@ export default class GameOver extends Phaser.Scene {
   update (time, delta) {
     // Update the scene
     if (this.startKey.isDown) {
-      this.scene.start('Scene5')
+      this.scene.start('Game')
     } else if (this.titleKey.isDown) {
       this.scene.start('Title')
     }

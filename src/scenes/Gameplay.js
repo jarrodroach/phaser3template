@@ -9,6 +9,7 @@ export default class Gameplay extends Phaser.Scene {
     this.load.image("ground", "./assets/sprites/platform.png");
     this.load.image("star", "./assets/sprites/star.png");
     this.load.image("bomb", "./assets/sprites/bomb.png");
+    this.load.image("wall", "./assets/sprites/wall.png");
     this.load.spritesheet("dude", "./assets/sprites/dude.png", {
       frameWidth: 32,
       frameHeight: 48
@@ -22,7 +23,7 @@ export default class Gameplay extends Phaser.Scene {
     this.bombs;
     var platforms;
     this.cursors;
-    this.score = 1000;
+    this.score = 0;
     this.gameOver = false;
     this.scoreText;
 
@@ -39,20 +40,46 @@ export default class Gameplay extends Phaser.Scene {
       .setScale(2)
       .refreshBody();
 
-    //  Now let's create some ledges
+    //Creates ledges
     platforms.create(600, 400, "ground");
     platforms.create(50, 250, "ground");
     platforms.create(750, 220, "ground");
 
+    //creates walls
+    platforms.create(150, 520, 'wall');
+    platforms.create(220, 450, 'wall');
+    platforms.create(300, 380, 'wall');
+    platforms.create(247, 218, 'wall');
+    platforms.create(247, 118, 'wall');
+    platforms.create(350, 300, 'wall');
+    platforms.create(480, 230, 'wall');
+
+    //create bomb obstacle
+    this.bombs = this.physics.add.group();
+
+    //bomb 1 is created
+    this.bomb = this.bombs.create(500, 16, "bomb");
+    this.bomb.setBounce(1);
+    this.bomb.setCollideWorldBounds(true);
+    this.bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+    this.bomb.allowGravity = false;
+
+    //bomb 2
+    this.bomb = this.bombs.create(400, 16, "bomb");
+    this.bomb.setBounce(1);
+    this.bomb.setCollideWorldBounds(true);
+    this.bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+    this.bomb.allowGravity = false;
+
     // The player and its settings
     this.player = this.physics.add.sprite(100, 450, "dude");
 
-    //  Player physics properties. Give the little guy a slight bounce.
-    this.player.setBounce(0.2);
+    //  Player physics properties.
+    this.player.setBounce(0);
     this.player.setCollideWorldBounds(true);
 
     //Set gravity of this scene
-    this.physics.world.gravity.y = 300;
+    this.physics.world.gravity.y = 500;
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
@@ -90,12 +117,10 @@ export default class Gameplay extends Phaser.Scene {
       child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
     });
 
-    this.bombs = this.physics.add.group();
-
     //  The score
-    this.scoreText = this.add.text(16, 16, "score: 1000", {
-      fontSize: "32px",
-      fill: "#000"
+    this.scoreText = this.add.text(16, 16, "Score: 0", {
+      fontSize: "48px",
+      fill: "#FB431C"
     });
 
     //  Collide the player and the stars with the platforms
@@ -123,7 +148,7 @@ export default class Gameplay extends Phaser.Scene {
 
   update() {
     if (this.gameOver) {
-      this.scene.start('GameOverScene', { score: this.score });
+      this.scene.start('GameOver', { score: this.score });
       return;
     }
 
